@@ -1,0 +1,34 @@
+{
+  "name": "advanced-mern-auth-system",
+  "version": "1.0.0",
+  "description": "A New React Project started.",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "nodemon server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PAIshanMadusha/advanced-mern-auth-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/PAIshanMadusha/advanced-mern-auth-system/issues"
+  },
+  "homepage": "https://github.com/PAIshanMadusha/advanced-mern-auth-system#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^4.1.0",
+    "mongoose": "^8.16.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
