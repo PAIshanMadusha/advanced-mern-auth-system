@@ -96,5 +96,6 @@ export const signin = async (req, res) => {
 
 //SignOut
 export const signout = async (req, res) => {
-  res.send("Signout route");
+    res.clearCookie("token");
+    res.status(200).json({success: true, message: "Signed out successfully!"});
 };
