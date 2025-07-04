@@ -1,5 +1,5 @@
 import { User } from "../models/userModel.js";
-import bcrypt from "bcryptjs";
+import bcryptjs from "bcryptjs";
 import { generateVerificationToken } from "../utils/generateVerificationToken.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
@@ -61,12 +61,10 @@ export const verifyEmail = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Invalid or Expired Verification Code!",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or Expired Verification Code!",
+      });
     }
 
     user.isVerified = true;
@@ -85,17 +83,54 @@ export const verifyEmail = async (req, res) => {
     });
   } catch (error) {
     console.log("Error In Verify Email: ", error);
-    res.status(500).json({success: false, message: "Email Verification Was Not Successful!"});
+    res.status(500).json({
+      success: false,
+      message: "Email Verification Was Not Successful!",
+    });
   }
 };
 
 //SignIn
 export const signin = async (req, res) => {
-  res.send("Signin route");
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Email!" });
+    }
+    const isPasswordValid = await bcryptjs.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Password!" });
+    }
+    generateTokenAndSetCookie(res, user._id);
+
+    user.lastLogin = new Date();
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Signed in Successfully!",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.log("Error in sign in: ", error);
+    res.status(400).json({
+      success: false,
+      message: "Error when attempting to signed in: ",
+      error,
+    });
+  }
 };
 
 //SignOut
 export const signout = async (req, res) => {
-    res.clearCookie("token");
-    res.status(200).json({success: true, message: "Signed out successfully!"});
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Signed out successfully!" });
 };
