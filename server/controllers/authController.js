@@ -200,12 +200,10 @@ export const resetPassword = async (req, res) => {
       .json({ success: true, message: "Password Reset Completely!" });
   } catch (error) {
     console.log("Error in Reset Password: ", error);
-    res
-      .status(400)
-      .json({
-        success: false,
-        message: `Password Reset Unsuccessfully! ${error.message}`,
-      });
+    res.status(400).json({
+      success: false,
+      message: `Password Reset Unsuccessfully! ${error.message}`,
+    });
   }
 };
 
@@ -213,4 +211,25 @@ export const resetPassword = async (req, res) => {
 export const signout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ success: true, message: "Signed out successfully!" });
+};
+
+//Check Authentication
+export const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Not Found!" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log("Error in CheckAuth", user);
+    res
+      .status(400)
+      .json({
+        success: false,
+        message: `Error in CheckAuth: ${error.message}`,
+      });
+  }
 };
