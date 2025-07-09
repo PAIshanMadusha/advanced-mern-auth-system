@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import InputField from "../components/InputField";
-import { Lock, Mail, User } from "lucide-react";
+import { Loader, Lock, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
@@ -11,6 +11,7 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const isLoading = false;
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ const SignUpPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputField
-            icon={Lock}
+            icon={LockKeyhole}
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
@@ -75,8 +76,9 @@ const SignUpPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto"/> : "Sign Up"}
           </motion.button>
         </form>
       </div>
