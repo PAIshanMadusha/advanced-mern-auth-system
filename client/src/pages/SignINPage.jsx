@@ -3,14 +3,16 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import InputField from "../components/InputField";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 const SignINPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isLoading = false;
+  const { signin, isLoading, error } = useAuthStore();
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
+    await signin(email, password);
   };
 
   return (
@@ -39,6 +41,11 @@ const SignINPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && (
+            <p className="text-red-500 text-sm animate-pulse shadow-sm mb-2">
+              {error}
+            </p>
+          )}
           <div className="flex items-center mb-6">
             <Link
               to="/forgot-password"
@@ -54,7 +61,11 @@ const SignINPage = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto"/> : "Sign In"}
+            {isLoading ? (
+              <Loader className="w-6 h-6 animate-spin mx-auto" />
+            ) : (
+              "Sign In"
+            )}
           </motion.button>
         </form>
       </div>
@@ -62,7 +73,7 @@ const SignINPage = () => {
         <p className="text-sm text-gray-400">
           Don't Have An Account?{" "}
           <Link to="/signup" className="text-green-400 hover:underline">
-          SignUp
+            SignUp
           </Link>
         </p>
       </div>
