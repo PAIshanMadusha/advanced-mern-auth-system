@@ -2,24 +2,33 @@ import { motion } from "framer-motion";
 import InputField from "../components/InputField";
 import { Loader, Lock, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
+import { useAuthStore } from "../store/authStore";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const isLoading = false;
+  const {signup, isLoading, error} = useAuthStore();
+  const navigate = useNavigate();
+  const [errorPassword, setError] = useState("");
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async(e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError("Password doesn't match");
       return;
     }
     setError("");
+
+    try{
+      await signup(name, email, password);
+      navigate("/verify-email");
+    }catch(e){
+      console.log(error);
+    }
   };
 
   return (
@@ -63,9 +72,10 @@ const SignUpPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {error && (
+          {error && <p className="text-red-500 text-sm animate-pulse shadow-sm">{error}</p>}
+          {errorPassword && (
             <div className="text-red-500 text-sm animate-pulse shadow-sm">
-              {error}
+              {errorPassword}
             </div>
           )}
           {/* Password strength meter */}
