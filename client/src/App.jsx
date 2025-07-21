@@ -8,19 +8,20 @@ import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import LoadingSpinner from "./components/LoadingSpinner";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 //Protect routes
-const ProtectedRoute = ({children}) => {
-  const {isAuthenticated, user} = useAuthStore();
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
 
-  if(!isAuthenticated){
-    return <Navigate to="/signin" replace/>
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
   }
-  if(!user.isVerified){
-    return <Navigate to="verify-email" replace/>
+  if (!user.isVerified) {
+    return <Navigate to="verify-email" replace />;
   }
-   return children;
-}
+  return children;
+};
 
 //Redirect authenticated users to the home page
 const RedirectAuthenticatedUser = ({ children }) => {
@@ -33,13 +34,13 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  if(isCheckingAuth) return <LoadingSpinner/>
+  if (isCheckingAuth) return <LoadingSpinner />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
@@ -65,9 +66,14 @@ function App() {
         delay={2}
       />
       <Routes>
-        <Route path="/" element={<ProtectedRoute>
-          <HomePage/>
-        </ProtectedRoute>} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/signup"
           element={
@@ -85,6 +91,14 @@ function App() {
           }
         />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
+        <Route
+          path="/forgot-password"
+          element={
+            <RedirectAuthenticatedUser>
+              <ForgotPasswordPage />
+            </RedirectAuthenticatedUser>
+          }
+        />
       </Routes>
       <Toaster />
     </div>
