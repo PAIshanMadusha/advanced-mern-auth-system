@@ -13,7 +13,7 @@ const FloatingShape = ({ color, size, top, left, delay }) => {
       transition={{
         duration: 20,
         ease: "linear",
-        repeat: "Infinity",
+        repeat: Infinity,
         delay,
       }}
 
