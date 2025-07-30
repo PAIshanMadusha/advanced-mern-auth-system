@@ -7,7 +7,7 @@ import {
   sendVerificationEmail,
   sendWelcomeEmail,
   sendResetSuccessEmail,
-} from "../mailtrap/emails.js";
+} from "../mailtrap_brevo/emails.js";
 import { User } from "../models/userModel.js";
 
 //SignUp
@@ -156,6 +156,9 @@ export const forgotPassword = async (req, res) => {
     await user.save();
 
     //Send an Email
+    // Use CLIENT_URL from .env to generate the correct reset link
+    // In development: http://localhost:5173
+    // In production: set CLIENT_URL to your frontend domain (e.g., https://your-site.com)
     await sendPasswordResetEmail(
       user.email,
       `${process.env.CLIENT_URL}/reset-password/${resetToken}`

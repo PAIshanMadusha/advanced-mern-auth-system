@@ -18,7 +18,7 @@ const HomePage = () => {
       className="max-w-md w-full mx-auto mt-10 p-8 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-500"
     >
       <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-violet-600 text-transparent bg-clip-text">
-        Home
+        Homepage
       </h2>
       <div className="space-y-6">
         <motion.div

@@ -46,25 +46,51 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-violet-900 flex items-center justify-center relative overflow-hidden">
       <FloatingShape
-        color="bg-green-500"
+        color="bg-blue-200"
         size="w-64 h-64"
         top="-5%"
         left="10%"
         delay={0}
       />
+
       <FloatingShape
-        color="bg-emerald-500"
+        color="bg-sky-200"
         size="w-48 h-48"
         top="70%"
         left="80%"
         delay={5}
       />
+
       <FloatingShape
-        color="bg-lime-500"
+        color="bg-blue-100"
         size="w-32 h-32"
         top="40%"
         left="-10%"
         delay={2}
+      />
+
+      <FloatingShape
+        color="bg-cyan-100"
+        size="w-40 h-40"
+        top="10%"
+        left="75%"
+        delay={3}
+      />
+
+      <FloatingShape
+        color="bg-blue-300"
+        size="w-56 h-56"
+        top="85%"
+        left="20%"
+        delay={6}
+      />
+
+      <FloatingShape
+        color="bg-sky-100"
+        size="w-36 h-36"
+        top="25%"
+        left="50%"
+        delay={1}
       />
       <Routes>
         <Route
